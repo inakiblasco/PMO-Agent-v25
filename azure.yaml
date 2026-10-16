@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: fde-hackathon
+services:
+    ai-project:
+        host: azure.ai.project
+        endpoint: ${FOUNDRY_PROJECT_ENDPOINT}
+    test-hostedagent:
+        project: .
+        host: azure.ai.agent
+        language: python
+        uses:
+            - ai-project
+        env:
+            PMO_RUNTIME: foundry
+            PMO_SKILLS_DIR: skills
+            PMO_TRACE_ENABLED: "false"
+            PMO_TRACE_DIR: /tmp/test-hostedagent-log
+            AZURE_CREDENTIAL_MODE: managed_identity
+            ADO_MODE: toolbox
+            ADO_WRITE_TOOLBOX_ENDPOINT: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon/toolboxes/pmo-agent-tools/versions/3/mcp?api-version=v1
+            ADO_TOOLBOX_ENDPOINT: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon/toolboxes/pmo-agent-tools/versions/2/mcp?api-version=v1
+            ADO_PROJECT: PMO-Agent
+            ADO_SERVER_LABEL: AzureDevOpsMCPServer
+            ADO_DUE_DATE_FIELD: Custom.DueDate
+            ADO_COMPLETED_STATES: Done
+            WORKIQ_MODE: toolbox
+            WORKIQ_TOOLBOX_ENDPOINT: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon/toolboxes/pmo-workiq-tools/versions/1/mcp?api-version=v1
+            FOUNDRY_PROJECT_ENDPOINT: ${FOUNDRY_PROJECT_ENDPOINT}
+            AZURE_AI_MODEL_DEPLOYMENT_NAME: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
+        codeConfiguration:
+            dependencyResolution: remote_build
+            entryPoint: main.py
+            runtime: python_3_14
+        container:
+            resources:
+                cpu: "0.5"
+                memory: 1Gi
+        kind: hosted
+        name: test-hostedagent
+        protocols:
+            - protocol: responses
+              version: 2.0.0
+infra:
+    provider: microsoft.foundry

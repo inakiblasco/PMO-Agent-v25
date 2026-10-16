@@ -1,0 +1,25 @@
+name: test-hostedagent
+description: PMO Agent for WorkIQ evidence and approval-bound Azure DevOps updates.
+metadata:
+  tags:
+    - Agent Framework
+    - PMO
+    - Azure DevOps
+    - WorkIQ
+template:
+  name: test-hostedagent
+  kind: hosted
+  protocols:
+    - protocol: responses
+      version: 2.0.0
+  environment_variables:
+    - name: PMO_RUNTIME
+      value: foundry
+    - name: PMO_SKILLS_DIR
+      value: /app/skills
+    - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
+      value: "{{AZURE_AI_MODEL_DEPLOYMENT_NAME}}"
+resources:
+  - kind: model
+    id: gpt-5.6-terra
+    name: AZURE_AI_MODEL_DEPLOYMENT_NAME

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fde-pmo-agent"
+version = "0.1.0"
+description = "PMO agent for WorkIQ and Azure DevOps"
+requires-python = ">=3.11"
+dependencies = [
+    "agent-framework-core==1.18.0",
+    "agent-framework-foundry==1.13.0",
+    "agent-framework-foundry-hosting==1.0.0b260910",
+    "azure-identity==1.25.3",
+    "python-dotenv>=1,<2",
+]
+
+[project.scripts]
+fde-pmo-host = "fde_pmo_agent.hosting.foundry:main"
+fde-pmo-check-ado = "fde_pmo_agent.integrations.mcp.check_ado:main"
+fde-pmo-check-workiq = "fde_pmo_agent.integrations.mcp.check_workiq:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fde_pmo_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"

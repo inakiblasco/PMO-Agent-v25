@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/microsoft/AgentSchema/refs/heads/main/schemas/v1.0/ContainerAgent.yaml
+kind: hosted
+name: test-hostedagent
+description: PMO Agent for WorkIQ evidence and approval-bound Azure DevOps updates.
+protocols:
+  - protocol: responses
+    version: 2.0.0
+codeConfiguration:
+  runtime: python_3_14
+  entryPoint: main.py
+resources:
+  cpu: "0.5"
+  memory: 1Gi
+environmentVariables:
+  - name: PMO_RUNTIME
+    value: foundry
+  - name: PMO_SKILLS_DIR
+    value: skills
+  - name: PMO_TRACE_ENABLED
+    value: "false"
+  - name: PMO_TRACE_DIR
+    value: /tmp/test-hostedagent-log
+  - name: AZURE_CREDENTIAL_MODE
+    value: managed_identity
+  - name: ADO_MODE
+    value: toolbox
+  - name: ADO_WRITE_TOOLBOX_ENDPOINT
+    value: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon/toolboxes/pmo-agent-tools/versions/3/mcp?api-version=v1
+  - name: ADO_TOOLBOX_ENDPOINT
+    value: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon/toolboxes/pmo-agent-tools/versions/2/mcp?api-version=v1
+  - name: ADO_PROJECT
+    value: PMO-Agent
+  - name: ADO_SERVER_LABEL
+    value: AzureDevOpsMCPServer
+  - name: ADO_DUE_DATE_FIELD
+    value: Custom.DueDate
+  - name: ADO_COMPLETED_STATES
+    value: Done
+  - name: WORKIQ_MODE
+    value: toolbox
+  - name: WORKIQ_TOOLBOX_ENDPOINT
+    value: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon/toolboxes/pmo-workiq-tools/versions/1/mcp?api-version=v1
+  - name: FOUNDRY_PROJECT_ENDPOINT
+    value: https://aifoundry-techenablement-fde-hackathon-dev-jpe-001.services.ai.azure.com/api/projects/FDE-hackathon
+  - name: AZURE_AI_MODEL_DEPLOYMENT_NAME
+    value: gpt-5.6-terra
